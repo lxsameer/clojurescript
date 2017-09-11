@@ -7,6 +7,7 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns cljs.core-test
+  (:import goog.Uri)
   (:refer-clojure :exclude [iter])
   (:require [cljs.test :refer-macros [deftest testing is]]
             [clojure.test.check :as tc]
@@ -1493,3 +1494,13 @@
   ;;   (assert (= (:arglists var-meta) '([a b]))))
 
   )
+
+(deftest uri-predicate
+  (testing "Testing uri?"
+    (is (not (uri? "http://clojurescript.org")))
+    (is (not (uri? 42)))
+    (is (not (uri? [])))
+    (is (not (uri? {})))
+    (is (uri? (goog.Uri. "")))
+    (is (uri? (goog.Uri. "http://clojurescript.org")))
+    (is (uri? (goog.Uri. "some string")))))
